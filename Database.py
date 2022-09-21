@@ -94,15 +94,3 @@ def convert_to_list(locations_str):
     return ast.literal_eval(locations_str)
 
 
-event = {"location": "ashkelon", "information": "cleaning dlila beach", "time": "14:00-16:00", "date": "28/9/2022", "participants": [("noa","0586407344")]}
-event2 = {"location": "ashkelon", "information": "cleaning marina", "time": "17:00-20:00", "date": "25/9/2022", "participants": [("noa","0586407344")]}
-event1 = {"location": "sderot", "information": "plant new trees", "time": "12:00-14:00", "date": "30/9/2022", "participants": [("noa","0586407344")]}
-event4 = {"location": "sderot", "information": "clean parks", "time": "18:00-19:00", "date": "27/9/2022", "participants": [("noa","0586407344")]}
-initialize_file()
-# add_event(event)
-# add_event(event1)
-# add_event(event2)
-# add_event(event4)
-participants = [("Alona", "0527242533"), ("Shoham", "0526225017")]
-add_participants(event, participants)
-#add_participants(event4, participants)
