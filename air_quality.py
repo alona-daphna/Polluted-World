@@ -12,8 +12,7 @@ def getData(url=consts.URL):
     r=requests.get(url)
     return r.text
 
-def get_url_according_to_city():
-    city = input("Enter city to measure air quality : ")
+def get_url_according_to_city(city):
 
     path_to_chromedriver = "C:\\Users\\97252\\chromedriver.exe"
     options = webdriver.ChromeOptions()
@@ -46,31 +45,37 @@ def get_url_according_to_city():
 
     return driver.current_url
     
-def print_quality_index(overall_quality):
-    print("Air Quality Index : ", end="")
+def get_quality_index(overall_quality):
+    text_to_add = []
+    text_to_add.append("Air Quality Index : ")
+
     if 50 >= overall_quality >= 0:
-        print("Good")
-        print("Air pollution poses little to no risk.")
+        text_to_add.append("Good")
+        text_to_add.append("Air pollution poses little to no risk.")
+
 
     if 100 >= overall_quality >= 51:
-        print("Moderate")
-        print("May cause breathing discomfort for people with \nprolonged exposure, asthma or heart disease")
+        text_to_add.append("Moderate")
+        text_to_add.append("May cause breathing discomfort for people with \nprolonged exposure, asthma or heart disease")
     
     if 150 >= overall_quality >= 101:
-        print("Unhealthy for Sensitive Groups")
-        print("Members of sensitive groups should limit prolonged outdoor exertion.")
+        text_to_add.append("Unhealthy for Sensitive Groups")
+        text_to_add.append("Members of sensitive groups should limit prolonged outdoor exertion.")
     if 200 >= overall_quality >= 151:
-        print("Unhealthy")
-        print("Everyone may begin to experience health effects.\nmembers of sensitive groups may experience more serious health effects.")
+        text_to_add.append("Unhealthy")
+        text_to_add.append("Everyone may begin to experience health effects.\nmembers of sensitive groups may experience more serious health effects.")
     if 300 >= overall_quality >= 201:
-        print("Very Unhealty")
-        print("The entire population is more likely to be affected")
+        text_to_add.append("Very Unhealty")
+        text_to_add.append("The entire population is more likely to be affected")
+
+    return text_to_add    
 
 
-def main():
+def get_air_quality_data(city):
+    text = []
     
 
-    url = get_url_according_to_city()
+    url = get_url_according_to_city(city)
 
     data = getData(url)
     soup = BeautifulSoup(data, 'html.parser')
@@ -91,11 +96,14 @@ def main():
     air_data=[data.text for data in air_data]
 
     pollutents = ["O3", "NO2", "SO2", "PM2.5", "PM10", "co"]
-    print("Air Quality :", overall_quality)
+    text.append("Air Quality : " + overall_quality)
     for p in pollutents:
-        print(p, "level :", air_data[pollutents.index(p)])
-
-    print_quality_index(int(overall_quality))
+        text.append(p + " level : " + air_data[pollutents.index(p)])
 
 
-main()
+    text = text + get_quality_index(int(overall_quality))
+
+    return text 
+
+
+
